@@ -1,44 +1,32 @@
-function scrollToProdutos() {
-    document.getElementById('produtos').scrollIntoView({ behavior: 'smooth' });
+
+function startCountdown() {
+    const endTime = new Date().getTime() + 24 * 60 * 60 * 1000; 
+    const countdownElement = document.getElementById("tempo-restante");
+    const interval = setInterval(function() {
+      const now = new Date().getTime();
+      const timeRemaining = endTime - now;
+  
+      if (timeRemaining <= 0) {
+        clearInterval(interval);
+        countdownElement.innerHTML = "A promoção acabou!";
+      } else {
+        const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+  
+        countdownElement.innerHTML = `${hours}h ${minutes}m ${seconds}s`;
+      }
+    }, 1000);
   }
   
-  function comprar() {
-    alert('Produto adicionado ao carrinho!');
+  startCountdown();
+
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
   
-  document.getElementById('emailForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const email = document.getElementById('email').value;
-    if (email) {
-      alert('Obrigado por se inscrever!');
-      document.getElementById('email').value = '';
-    } else {
-      alert('Por favor, insira um e-mail válido.');
-    }
+  document.addEventListener("DOMContentLoaded", function() {
+    const endTime = new Date().getTime() + 24 * 60 * 60 * 1000; 
+    startCountdown(endTime);
+    document.getElementById("scrollToTopBtn").addEventListener("click", scrollToTop);
   });
-  
-  const countdownElement = document.getElementById('countdown');
-  let tempo = 3600; 
-  setInterval(function() {
-    const horas = Math.floor(tempo / 3600);
-    const minutos = Math.floor((tempo % 3600) / 60);
-    const segundos = tempo % 60;
-    countdownElement.innerHTML = `${horas}h ${minutos}m ${segundos}s`;
-    tempo--;
-    if (tempo <= 0) {
-      countdownElement.innerHTML = 'Promoção acabou!';
-    }
-  }, 1000);
-  
-  window.onscroll = function() {
-    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-      scrollToTopBtn.style.display = 'block';
-    } else {
-      scrollToTopBtn.style.display = 'none';
-    }
-  };
-  
-  document.getElementById('scrollToTopBtn').addEventListener('click', function() {
-    window.scrollTo({ top: 0, behavior: 'smooth'});
-});
